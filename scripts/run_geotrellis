@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Make a scratch directory if it doesn't exist
+if [ ! -d "scratch" ]; then
+    mkdir "scratch"
+fi
+
+# Convert the FeatureCollection into {shape: geometry} for GeoTrellis input
+jq "{shape: (.features[0].geometry | tostring)}" "$@" > scratch/request.json
+
+MMW_GEOPROCESSING_API=http://localhost:8090
+
+# Query against GeoTrellis, print sorted output
+curl -X POST --silent \
+    -H "Content-Type: application/json" \
+    --data "@scratch/request.json" \
+    $MMW_GEOPROCESSING_API/stac \
+    | jq -S .
+
+# Delete temporary file
+rm scratch/request.json
