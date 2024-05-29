@@ -1,0 +1,7 @@
+matplotlib
+pystac_client
+rasterio
+shapely
+geopandas
+requests
+numpy
