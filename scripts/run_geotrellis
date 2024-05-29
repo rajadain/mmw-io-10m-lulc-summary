@@ -6,7 +6,7 @@ if [ ! -d "scratch" ]; then
 fi
 
 # Convert the FeatureCollection into {shape: geometry} for GeoTrellis input
-jq "{shape: (.features[0].geometry | tostring)}" "$@" > scratch/request.json
+jq "{shape: (.features[0].geometry | tostring), year: 2019, stacUri: \"https://api.impactobservatory.com/stac-aws\", stacCollection: \"io-10m-annual-lulc\"}" "$@" > scratch/request.json
 
 MMW_GEOPROCESSING_API=http://localhost:8090
 
